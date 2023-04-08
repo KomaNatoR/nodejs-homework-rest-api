@@ -1,10 +1,18 @@
 const mongoose = require('mongoose');
-const DB_HOST="mongodb+srv://Serhii:2545data2545@cluster0.bsgspqj.mongodb.net/contacts_reader?retryWrites=true&w=majority"
+// require("dotenv").config();
 
+const app = require('./app');
 
-const app = require('./app')
-// 2545data2545
+// const { DB_HOST } = require("./config");
+const { DB_HOST, PORT=4000 } = process.env;
 
 mongoose.connect(DB_HOST)
-  .then(()=>app.listen(3000, () => console.log("Server running. Use our API on port: 3000")))
-  .catch(err=>console.log(err.message));
+  .then(()=>app.listen(PORT, () => console.log(`"Database connection successful!" PORT:${PORT}`)))
+  .catch(err => {
+    console.log(err.message);
+    process.exit(1);
+  });
+
+// mongoose.connect(DB_HOST)
+//   .then(() => console.log("Database connection successful!"))
+//   .catch(err=>console.log(err.message));
