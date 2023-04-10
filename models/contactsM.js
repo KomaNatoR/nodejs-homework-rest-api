@@ -20,7 +20,7 @@ const contactSchema = new Schema({
     type: Boolean,
     default: false,
   },
-}, { versionKey: false, timestamps: true });
+}, { versionKey: false}); // , timestamps: true  - це якщо треба шоб дату створення і оновлення писало!
 // - contactSchema.post() це мідлвар - Спрацьовує лише коли валідація по схемі не вдалася!(це для того шоб ловити помилку бо сам монгус не кидає!)
 contactSchema.post("save", handleMongooseError); 
 
