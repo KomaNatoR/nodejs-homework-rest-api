@@ -31,13 +31,31 @@ const login = async (req, res) => {
     const payload = {
         id:user._id,
     }
-    const token = jwt.sign(payload, SECRET_KEY, {expiresIn:"23h"});
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "48h" });
+    await User.findByIdAndUpdate(user._id, {token});
 
     res.json({ token });
 };
 
+const getCurrent= async (req, res) => {
+    const { email } = req.user;
+    res.json({
+        email,
+    })
+};
+
+const logout= async (req, res) => {
+    const { _id } = req.user;
+    console.log("ITS ME LOGOUT_ID!",_id);
+    await User.findByIdAndUpdate(_id, { token: "" });
+    res.json({
+        message:"Logout Success!"
+    });
+};
 
 module.exports = {
     register:ctrlWrapper(register),
-    login:ctrlWrapper(login),
+    login: ctrlWrapper(login),
+    getCurrent: ctrlWrapper(getCurrent),
+    logout: ctrlWrapper(logout),
 }

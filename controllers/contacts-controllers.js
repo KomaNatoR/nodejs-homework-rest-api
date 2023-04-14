@@ -5,7 +5,10 @@ const { HttpError, ctrlWrapper } = require("../utils");
 
 // ------------------------------------------------------------------------ | ROUTERS
 const getList = async (req, res) => {
-  const result = await Contact.find({});
+  const { _id: owner } = req.user;
+  const { page = 1, limit = 10 } = req.query;
+  const skip = (page - 1) * limit;
+  const result = await Contact.find({owner},"",{skip, limit}).populate("owner", "email"); // populate() бере ід записане в цьому полі, іде в колекцію яка вказана в contactSchema.owner.ref і записує цей обєкт(це назив поширений запит!)! Другий параметр перелік полів який нам потрібен!
   res.json(result);
 };
 
@@ -21,7 +24,10 @@ const getById = async (req, res) => {
 };
 
 const add = async (req, res) => {
-  const result = await Contact.create(req.body);
+  const { _id: owner } = req.user; // забираємо з реквеста(інфу про якого ми записали в authenticat) і перейм. в owner! 
+  const result = await Contact.create({ ...req.body, owner });
+  // console.log("result!!!", result);
+  // console.log("owner!!!", owner);
   res.status(201).json(result);
 };
 

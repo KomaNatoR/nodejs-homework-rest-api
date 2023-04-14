@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 // const mongoose = require('mongoose');
 const Joi = require("joi");
 
-const { handleMongooseError } = require("../utils");
+const handleMongooseError = require("../utils/handleMongooseError");
 
 const userShema = new Schema({
   password: {
@@ -17,9 +17,12 @@ const userShema = new Schema({
   subscription: {
     type: String,
     enum: ["starter", "pro", "business"],
-    default: "starter"
+    default: "starter",
   },
-  token: String
+  token: {
+    type: String,
+    default: ","
+  },
 }, { versionKey: false });
 userShema.post("save", handleMongooseError);
 
