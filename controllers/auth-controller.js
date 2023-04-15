@@ -14,11 +14,14 @@ const register = async (req, res) => {
     const hashPassword = await bcrypt.hash(password, 10);
     const newUser = await User.create({ ...req.body, password: hashPassword });
     res.status(201).json({
-        email: newUser.email,
-        // password:newUser.password,
-        subscription: newUser.subscription,
-    })
+        user: {
+            email: newUser.email,
+            // password:newUser.password,
+            subscription: newUser.subscription,
+        },
+    });
 };
+
 const login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });

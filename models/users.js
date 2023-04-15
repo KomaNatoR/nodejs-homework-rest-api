@@ -21,7 +21,7 @@ const userShema = new Schema({
   },
   token: {
     type: String,
-    default: ","
+    default: "",
   },
 }, { versionKey: false });
 userShema.post("save", handleMongooseError);
