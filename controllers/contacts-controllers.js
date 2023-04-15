@@ -16,10 +16,12 @@ const getList = async (req, res) => {
 };
 
 const getById = async (req, res) => {
+  const { _id: owner } = req.user;
   const { contactId } = req.params;
   // const result = await Contact.findOne({ _id: contactId }); - один із варіантів!
 
   const result = await Contact.findById(contactId);
+  if (JSON.stringify(owner) !== JSON.stringify(result.owner)) throw HttpError(404, "Not found");
   if (!result) {
     throw HttpError(404, "Not found");
   }
