@@ -51,11 +51,14 @@ const update = async (req, res) => {
 };
 
 const updateFavorite = async (req, res) => {
+  const { _id: owner } = req.user;
   const { contactId } = req.params;
 
   if (Object.keys(req.body).length === 0) {
     throw HttpError(400, "missing field favorite");
   }
+  const allResult = await Contact.findById(contactId);
+  if (JSON.stringify(owner) !== JSON.stringify(allResult.owner)) throw HttpError(404, "Not found");
   const result = await Contact.findByIdAndUpdate(contactId, req.body, {new:true});
   if (!result) {
     throw HttpError(404, "Not found");
@@ -64,7 +67,12 @@ const updateFavorite = async (req, res) => {
 };
 
 const remove = async (req, res) => {
+  const { _id: owner } = req.user;
   const { contactId } = req.params;
+
+  
+  const allResult = await Contact.findById(contactId);
+  if (JSON.stringify(owner) !== JSON.stringify(allResult.owner)) throw HttpError(404, "Not found");
   const result = await Contact.findByIdAndDelete(contactId);
   if (!result) {
     throw HttpError(404, "Not found");
