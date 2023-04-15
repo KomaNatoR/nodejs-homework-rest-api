@@ -31,18 +31,19 @@ const getById = async (req, res) => {
 const add = async (req, res) => {
   const { _id: owner } = req.user; // забираємо з реквеста(інфу про якого ми записали в authenticat) і перейм. в owner! 
   const result = await Contact.create({ ...req.body, owner });
-  // console.log("result!!!", result);
-  // console.log("owner!!!", owner);
   res.status(201).json(result);
 };
 
 const update = async (req, res) => {
+  const { _id: owner } = req.user;
   const { contactId } = req.params;
 
   if (Object.keys(req.body).length === 0) {
     throw HttpError(400, "missing fields");
   }
-  const result = await Contact.findByIdAndUpdate(contactId, req.body, {new:true});
+  const allResult = await Contact.findById(contactId);
+  if (JSON.stringify(owner) !== JSON.stringify(allResult.owner)) throw HttpError(404, "Not found");
+  const result = await Contact.findByIdAndUpdate(contactId, req.body, { new: true });
   if (!result) {
     throw HttpError(404, "Not found");
   }
