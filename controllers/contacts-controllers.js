@@ -16,16 +16,17 @@ const getList = async (req, res) => {
 };
 
 const getById = async (req, res) => {
-  const { _id: owner } = req.user;
-  const { contactId } = req.params;
+  // const { _id: owner } = req.user;
+  const { ownersFindByID } = req;
+  // const { contactId } = req.params;
   // const result = await Contact.findOne({ _id: contactId }); - один із варіантів!
 
-  const result = await Contact.findById(contactId);
-  if (JSON.stringify(owner) !== JSON.stringify(result.owner)) throw HttpError(404, "Not found");
-  if (!result) {
+  // const result = await Contact.findById(contactId);
+  // if (JSON.stringify(owner) !== JSON.stringify(result.owner)) throw HttpError(404, "Not found");
+  if (!ownersFindByID) {
     throw HttpError(404, "Not found");
   }
-  res.json(result);
+  res.json(ownersFindByID);
 };
 
 const add = async (req, res) => {
@@ -35,14 +36,14 @@ const add = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  const { _id: owner } = req.user;
+  // const { _id: owner } = req.user;
   const { contactId } = req.params;
 
   if (Object.keys(req.body).length === 0) {
     throw HttpError(400, "missing fields");
   }
-  const allResult = await Contact.findById(contactId);
-  if (JSON.stringify(owner) !== JSON.stringify(allResult.owner)) throw HttpError(404, "Not found");
+  // const allResult = await Contact.findById(contactId);
+  // if (JSON.stringify(owner) !== JSON.stringify(allResult.owner)) throw HttpError(404, "Not found");
   const result = await Contact.findByIdAndUpdate(contactId, req.body, { new: true });
   if (!result) {
     throw HttpError(404, "Not found");
@@ -51,14 +52,14 @@ const update = async (req, res) => {
 };
 
 const updateFavorite = async (req, res) => {
-  const { _id: owner } = req.user;
+  // const { _id: owner } = req.user;
   const { contactId } = req.params;
 
   if (Object.keys(req.body).length === 0) {
     throw HttpError(400, "missing field favorite");
   }
-  const allResult = await Contact.findById(contactId);
-  if (JSON.stringify(owner) !== JSON.stringify(allResult.owner)) throw HttpError(404, "Not found");
+  // const allResult = await Contact.findById(contactId);
+  // if (JSON.stringify(owner) !== JSON.stringify(allResult.owner)) throw HttpError(404, "Not found");
   const result = await Contact.findByIdAndUpdate(contactId, req.body, {new:true});
   if (!result) {
     throw HttpError(404, "Not found");
@@ -67,12 +68,12 @@ const updateFavorite = async (req, res) => {
 };
 
 const remove = async (req, res) => {
-  const { _id: owner } = req.user;
+  // const { _id: owner } = req.user;
   const { contactId } = req.params;
 
   
-  const allResult = await Contact.findById(contactId);
-  if (JSON.stringify(owner) !== JSON.stringify(allResult.owner)) throw HttpError(404, "Not found");
+  // const allResult = await Contact.findById(contactId);
+  // if (JSON.stringify(owner) !== JSON.stringify(allResult.owner)) throw HttpError(404, "Not found");
   const result = await Contact.findByIdAndDelete(contactId);
   if (!result) {
     throw HttpError(404, "Not found");
