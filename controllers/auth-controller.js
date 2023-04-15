@@ -47,19 +47,21 @@ const login = async (req, res) => {
 };
 
 const getCurrent= async (req, res) => {
-    const { email } = req.user;
+    const { email, subscription } = req.user;
     res.json({
         email,
+        subscription,
     })
 };
 
 const logout= async (req, res) => {
     const { _id } = req.user;
-    console.log("ITS ME LOGOUT_ID!",_id);
+    // console.log("ITS ME LOGOUT_ID!",_id);
     await User.findByIdAndUpdate(_id, { token: "" });
-    res.json({
-        message:"Logout Success!"
-    });
+    res.status(204).json();
+    // res.json({
+    //     message:"Logout Success!"
+    // });
 };
 
 module.exports = {
