@@ -38,9 +38,15 @@ const validatedId = (req, res, next) => {
 };                                 
 
 const addSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().email().required(),
-  phone: Joi.string().required(),
+  name: Joi.string().required().messages({
+    "any.required": `'name' is required!`,
+  }),
+  email: Joi.string().email().required().messages({
+    "any.required": `'email' is required!`,
+  }),
+  phone: Joi.string().required().messages({
+    "any.required": `'phone' is required!`,
+  }),
   favorite: Joi.boolean(),
 });
 const putSchema = Joi.object({
@@ -51,7 +57,7 @@ const putSchema = Joi.object({
 });
 const patchFavoriteSchema = Joi.object({
   favorite: Joi.boolean().required(),
-})
+});
 const schemas = {
   addSchema,
   putSchema,
