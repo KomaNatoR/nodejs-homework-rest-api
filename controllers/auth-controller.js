@@ -64,9 +64,19 @@ const logout= async (req, res) => {
     // });
 };
 
+const subscription= async (req, res) => {
+    const { _id } = req.user;
+    
+    await User.findByIdAndUpdate(_id, req.body);
+    res.json({
+        message:`Subscription changed to ${Object.values(req.body)}!`
+    })
+};
+
 module.exports = {
     register:ctrlWrapper(register),
     login: ctrlWrapper(login),
     getCurrent: ctrlWrapper(getCurrent),
     logout: ctrlWrapper(logout),
+    subscription: ctrlWrapper(subscription),
 }

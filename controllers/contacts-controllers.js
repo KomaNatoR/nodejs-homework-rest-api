@@ -8,7 +8,8 @@ const getList = async (req, res) => {
   const { _id: owner } = req.user;
   const { page = 1, limit = 10 } = req.query;
   const skip = (page - 1) * limit;
-  const result = await Contact.find({owner},"",{skip, limit}).populate("owner", "email"); // populate() бере ід записане в цьому полі, іде в колекцію яка вказана в contactSchema.owner.ref і записує цей обєкт(це назив поширений запит!)! Другий параметр перелік полів який нам потрібен!
+  const result = await Contact.find({ owner }, "", { skip, limit }).populate("owner", "email"); // populate() бере ід записане в цьому полі, іде в колекцію яка вказана в contactSchema.owner.ref і записує цей обєкт(це назив поширений запит!)!
+  // Другий параметр перелік полів який нам потрібен! Ця штука ставиться коли на потрібно розширити поле овнер!
   const favoriteResult = result.filter(it => it.favorite);
   const chekingResult = Object.keys(req.query).find(it => it === "favorite");
   

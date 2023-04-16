@@ -34,9 +34,16 @@ const logShema = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
 });
+const subsriptionShema = Joi.object({
+  subscription: Joi.string().valid('starter', 'pro', 'business').required().messages({
+    "any.only": `Must be 'starter', 'pro' or 'business'!`,
+    "any.required": `SUBSCRIPTION is required!`,
+  }),
+});
 const schemas = {
   regShema,
   logShema,
+  subsriptionShema,
 }
 
 const User = model("user", userShema);
