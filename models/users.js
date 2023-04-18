@@ -23,6 +23,10 @@ const userShema = new Schema({
     type: String,
     default: "",
   },
+  avatarURL: {
+    type: String,
+    required:true,
+  },
 }, { versionKey: false });
 userShema.post("save", handleMongooseError);
 
