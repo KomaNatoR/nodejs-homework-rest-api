@@ -12,7 +12,7 @@ router.post("/login", validateBody(schemas.logShema), ctr.login);
 router.get("/current", authenticat, ctr.getCurrent);
 router.post("/logout", authenticat, ctr.logout);
 router.patch("/subscription", authenticat, validateBody(schemas.subsriptionShema), ctr.subscription);
-router.patch("/avatar", authenticat, upload.single("avatar"), ctr.updateAvatar);
+router.patch("/avatars", authenticat, upload.single("avatars"), ctr.updateAvatar);
 
 
 module.exports = router;
