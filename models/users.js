@@ -27,12 +27,23 @@ const userShema = new Schema({
     type: String,
     required:true,
   },
+  verify: {
+    type: Boolean,
+    default:false,
+  },
+  verificationToken: {
+    type: String,
+    required: [true, 'Verify token is required'],
+  },
 }, { versionKey: false });
 userShema.post("save", handleMongooseError);
 
 const regShema = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
+});
+const emailShema = Joi.object({
+  email: Joi.string().email().required(),
 });
 const logShema = Joi.object({
   email: Joi.string().email().required(),
@@ -46,6 +57,7 @@ const subsriptionShema = Joi.object({
 });
 const schemas = {
   regShema,
+  emailShema,
   logShema,
   subsriptionShema,
 }
